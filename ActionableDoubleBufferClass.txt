@@ -1,0 +1,50 @@
+What if I were to create a double buffer object that allowed the user to register actions that ran on
+different events within the buffers? Could be handy for an asynchronous event kind of management style.
+If you know what you want to have happen, why not let it automatically do it?
+
+Pseudo Code Idea:
+
+enum class ActionType : storage type 
+{
+    ON_SWAP,
+    ON_FULL,    // Perhaps on just the input buffer?
+    ON_EMPTY,   // Only the read buffer?
+    What else?
+};
+
+class ActionableDoubleBuffer
+{
+public:
+    // Static initializer 
+    ActionableDoubleBuffer( buffer1, buffer2)
+
+    // Dynamic initializer
+    ActionableDoubleBuffer( size1, size2 ) // Should these be required symmetric?
+
+    writeDataIntoBuffer1()
+    {
+        lock, write, unlock
+    }
+
+    readDataFromBuffer2()
+    {
+        lock, read, unlock
+    }
+
+    swapBuffers()
+    {
+        Should acquire mutexes before swapping  
+    }
+
+    registerAction( actionType, ACoolAction )
+
+    removeAction( actionType )
+
+protected:
+
+private:
+    mutex_for_buffer_1  // FreeRTOS
+    mutex_for_buffer_2  // FreeRTOS
+    ptr_to_buffer_1     // unique ptr 
+    ptr_to_buffer_2     // unique ptr
+}
